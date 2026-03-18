@@ -7,7 +7,6 @@ import type { FC } from 'react';
 const NAV_LINKS = [
   { label: 'Games', href: '#games' },
   { label: 'Features', href: '#features' },
-  { label: 'Pricing', href: '#pricing' },
 ];
 
 const Header: FC = () => {
@@ -42,7 +41,7 @@ const Header: FC = () => {
 
         {/* CTA */}
         <div className="flex items-center gap-2">
-          <Button href="#pricing" className="hidden sm:inline-flex px-4 py-2 text-xs">
+          <Button href="#games" className="hidden sm:inline-flex px-4 py-2 text-xs">
             Get Started
           </Button>
           <button
@@ -77,7 +76,7 @@ const Header: FC = () => {
                 </a>
               ))}
               <div className="mt-2 pt-2 border-t border-border">
-                <Button href="#pricing" className="w-full py-2.5 text-sm">
+                <Button href="#games" className="w-full py-2.5 text-sm">
                   Get Started
                 </Button>
               </div>

@@ -2,7 +2,6 @@ import Header from '@/components/Header.tsx';
 import Hero from '@/components/Hero.tsx';
 import Games from '@/components/sections/Games.tsx';
 import Features from '@/components/sections/Features.tsx';
-import Pricing from '@/components/sections/Pricing.tsx';
 import Footer from '@/components/sections/Footer.tsx';
 
 const LandingPage = () => (
@@ -12,7 +11,6 @@ const LandingPage = () => (
       <Hero />
       <Games />
       <Features />
-      <Pricing />
     </main>
     <Footer />
   </div>

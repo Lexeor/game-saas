@@ -1,14 +1,7 @@
 import { motion } from 'motion/react';
-import { ArrowRightIcon, ZapIcon, ShieldCheckIcon, HeadphonesIcon, GamepadIcon } from 'lucide-react';
+import { ArrowRightIcon } from 'lucide-react';
 import Button from '@/components/ui/Button.tsx';
 import type { FC } from 'react';
-
-const STATS = [
-  { icon: ShieldCheckIcon, value: '99.9%', label: 'Uptime SLA' },
-  { icon: ZapIcon,         value: '<60s',  label: 'Server Deploy' },
-  { icon: GamepadIcon,     value: '4',     label: 'Games Supported' },
-  { icon: HeadphonesIcon,  value: '24/7',  label: 'Expert Support' },
-];
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -79,7 +72,7 @@ const Hero: FC = () => (
 
         {/* CTAs */}
         <motion.div {...fadeUp(0.32)} className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Button href="#pricing" className="px-6 py-3 text-sm">
+          <Button href="#games" className="px-6 py-3 text-sm">
             Start Hosting
             <ArrowRightIcon size={15} />
           </Button>
@@ -93,24 +86,6 @@ const Hero: FC = () => (
           No credit card required &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; Free trial available
         </motion.p>
       </div>
-
-      {/* Stats bar */}
-      <motion.div
-        className="mb-6 overflow-hidden rounded-2xl border border-border/60 bg-surface/60 backdrop-blur-md"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.5 }}
-      >
-        <div className="grid grid-cols-2 divide-x divide-border/50 lg:grid-cols-4">
-          {STATS.map(({ icon: Icon, value, label }) => (
-            <div key={label} className="flex flex-col items-center gap-1.5 px-6 py-5 text-center">
-              <Icon size={16} className="text-primary-400 mb-0.5" />
-              <span className="space-grotesk text-2xl font-bold text-foreground lg:text-3xl">{value}</span>
-              <span className="text-xs text-muted">{label}</span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
     </div>
 
   </section>
