@@ -68,7 +68,7 @@ const Hero: FC = () => (
     <div className="relative z-10 mx-auto w-full max-w-[1280px] flex flex-col items-center">
 
       {/* Compact headline block */}
-      <div className="mb-10 text-center">
+      <div className="mb-10 text-center flex flex-col items-center">
         <motion.h1
           {...fadeUp(0.12)}
           className="space-grotesk text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl"
@@ -85,7 +85,7 @@ const Hero: FC = () => (
 
         <motion.p
           {...fadeUp(0.2)}
-          className="mt-4 max-w-lg text-base leading-relaxed text-foreground/45 md:text-lg"
+          className="mt-4 max-w-lg text-base text-center w-full leading-relaxed text-foreground/45 md:text-lg"
         >
           No port forwarding. No config files. Pick your game below —
           your private server is live in under 60 seconds.
