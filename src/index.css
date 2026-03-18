@@ -1,0 +1,98 @@
+@import "modern-normalize";
+@import "tailwindcss";
+
+@theme {
+  /* Primary — cozy forest green */
+  --color-primary-50:  #eef6e8;
+  --color-primary-100: #d4eccb;
+  --color-primary-200: #acd99a;
+  --color-primary-300: #7dc063;
+  --color-primary-400: #5faa45;
+  --color-primary-500: #6b9b5c;
+  --color-primary-600: #527848;
+  --color-primary-700: #3f5f38;
+  --color-primary-800: #334d2d;
+  --color-primary-900: #2b4026;
+  --color-primary-950: #152212;
+
+  /* Layout */
+  --color-background: #f5f8f2;
+  --color-foreground: #1c2918;
+
+  /* Brand shortcut */
+  --color-brand: var(--color-primary-500);
+
+  --font-caveat: Caveat, sans-serif;
+}
+
+:root {
+  font-family: "Noto Sans", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.grainy:before {
+  content: "";
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='discrete' tableValues='0 1'/%3E%3CfeFuncG type='discrete' tableValues='0 1'/%3E%3CfeFuncB type='discrete' tableValues='0 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 182px;
+  opacity: 0.1;
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* OverlayScrollbars — smooth scroll on viewport */
+[data-overlayscrollbars-viewport] {
+  scroll-behavior: smooth;
+}
+
+/* OverlayScrollbars — primary color theme */
+.os-theme-dark {
+  --os-handle-bg: #8dc640cc;
+  --os-handle-bg-hover: #8dc640ee;
+  --os-handle-bg-active: #6fa130ff;
+  --os-track-bg: transparent;
+  --os-track-bg-hover: #8dc64011;
+  --os-track-bg-active: #8dc64018;
+  --os-handle-border-radius: 4px;
+  --os-track-border-radius: 4px;
+  --os-size: 10px;
+  --os-handle-transition: opacity 0.15s, background-color 0.15s;
+}
+
+input, textarea, select {
+  outline: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--color-foreground);
+}
+
+button {
+  cursor: pointer;
+  color: var(--color-foreground);
+}
+
+.caveat {
+  font-family: Caveat, sans-serif;
+}
