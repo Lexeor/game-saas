@@ -1,6 +1,5 @@
 import Header from '@/components/Header.tsx';
 import Hero from '@/components/Hero.tsx';
-import Games from '@/components/sections/Games.tsx';
 import Features from '@/components/sections/Features.tsx';
 import Footer from '@/components/sections/Footer.tsx';
 
@@ -9,7 +8,6 @@ const LandingPage = () => (
     <Header />
     <main>
       <Hero />
-      <Games />
       <Features />
     </main>
     <Footer />

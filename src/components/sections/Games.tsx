@@ -42,7 +42,7 @@ const GAMES: Game[] = [
     name: 'Enshrouded',
     genre: 'Action RPG Survival',
     maxPlayers: 16,
-    image: '/game-saas/games/enshrouded.jpg',
+    image: '/game-saas/games/enshrouded.png',
     accentColor: '#a78bfa',
   },
 ];

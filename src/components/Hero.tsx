@@ -1,93 +1,170 @@
 import { motion } from 'motion/react';
-import { ArrowRightIcon } from 'lucide-react';
-import Button from '@/components/ui/Button.tsx';
+import { UsersIcon, ArrowRightIcon } from 'lucide-react';
 import type { FC } from 'react';
+
+const GAMES = [
+  {
+    id: 'valheim',
+    name: 'Valheim',
+    genre: 'Viking Survival',
+    maxPlayers: 10,
+    image: '/game-saas/games/valheim.jpg',
+    accent: '#22c55e',
+  },
+  {
+    id: '7dtd',
+    name: '7 Days to Die',
+    genre: 'Zombie Survival',
+    maxPlayers: 8,
+    image: '/game-saas/games/7dtd.jpg',
+    accent: '#f97316',
+  },
+  {
+    id: 'project-zomboid',
+    name: 'Project Zomboid',
+    genre: 'Isometric Survival RPG',
+    maxPlayers: 32,
+    image: '/game-saas/games/project-zomboid.jpg',
+    accent: '#a3e635',
+  },
+  {
+    id: 'enshrouded',
+    name: 'Enshrouded',
+    genre: 'Action RPG Survival',
+    maxPlayers: 16,
+    image: '/game-saas/games/enshrouded.png',
+    accent: '#a78bfa',
+  },
+];
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: 'easeOut' as const, delay },
+  transition: { duration: 0.55, ease: 'easeOut' as const, delay },
 });
 
 const Hero: FC = () => (
-  <section id="hero" className="relative flex min-h-screen flex-col overflow-hidden">
+  <section id="hero" className="relative overflow-hidden px-4 pt-28 pb-16">
 
     {/* Background glows */}
     <div className="pointer-events-none absolute inset-0">
-      {/* Center-left blue glow */}
       <div
-        className="absolute left-1/4 top-1/3 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20"
+        className="absolute left-1/4 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-15"
         style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }}
       />
-      {/* Right purple glow */}
       <div
-        className="absolute right-1/4 top-1/2 h-[400px] w-[400px] -translate-y-1/2 rounded-full opacity-15"
+        className="absolute right-1/4 top-1/3 h-[350px] w-[350px] rounded-full opacity-10"
         style={{ background: 'radial-gradient(circle, #7c3aed 0%, transparent 70%)' }}
       />
-      {/* Subtle grid */}
       <div
-        className="absolute inset-0 opacity-[0.035]"
+        className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: 'linear-gradient(rgba(59,130,246,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.5) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(59,130,246,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.6) 1px, transparent 1px)',
           backgroundSize: '60px 60px',
         }}
       />
     </div>
 
-    {/* Content */}
-    <div className="relative z-10 mx-auto flex w-full max-w-[1280px] flex-1 flex-col px-4">
-      <div className="flex flex-1 flex-col items-center justify-center pt-28 pb-8 text-center">
+    <div className="relative z-10 mx-auto w-full max-w-[1280px] flex flex-col items-center">
 
-        {/* Badge */}
-        <motion.div {...fadeUp(0.05)} className="mb-6">
+      {/* Compact headline block */}
+      <div className="mb-10 text-center">
+        <motion.div {...fadeUp(0.05)} className="mb-5">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary-500/25 bg-primary-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary-400">
             <span className="h-1.5 w-1.5 rounded-full bg-primary-400 animate-pulse" />
-            Next-gen game server hosting
+            Server setup? Consider it done.
           </span>
         </motion.div>
 
-        {/* Headline */}
         <motion.h1
           {...fadeUp(0.12)}
-          className="space-grotesk max-w-3xl text-5xl font-bold leading-[1.08] tracking-tight md:text-6xl lg:text-7xl"
+          className="space-grotesk text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl"
         >
-          Deploy your{' '}
+          You just{' '}
           <span
             className="bg-clip-text text-transparent"
             style={{ backgroundImage: 'linear-gradient(135deg, #60a5fa 0%, #06b6d4 100%)' }}
           >
-            game server
+            launch the game.
           </span>
-          <br />in seconds
+          <br />We handle the rest.
         </motion.h1>
 
-        {/* Description */}
         <motion.p
-          {...fadeUp(0.22)}
-          className="mt-6 max-w-xl text-base leading-relaxed text-foreground/50 md:text-lg"
+          {...fadeUp(0.2)}
+          className="mt-4 max-w-lg text-base leading-relaxed text-foreground/45 md:text-lg"
         >
-          High-performance dedicated servers for your favourite survival games.
-          One-click setup, instant deployment, full control — no IT skills required.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div {...fadeUp(0.32)} className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Button href="#games" className="px-6 py-3 text-sm">
-            Start Hosting
-            <ArrowRightIcon size={15} />
-          </Button>
-          <Button href="#games" variant="outline" className="px-6 py-3 text-sm">
-            Browse Games
-          </Button>
-        </motion.div>
-
-        {/* Trust line */}
-        <motion.p {...fadeUp(0.4)} className="mt-5 text-xs text-muted">
-          No credit card required &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; Free trial available
+          No port forwarding. No config files. Pick your game below —
+          your private server is live in under 60 seconds.
         </motion.p>
       </div>
-    </div>
 
+      {/* Game cards — the main focus */}
+      <div className="grid w-full grid-cols-2 gap-4 xl:grid-cols-4">
+        {GAMES.map((game, i) => (
+          <motion.a
+            key={game.id}
+            href="#"
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: 'easeOut', delay: 0.28 + i * 0.09 }}
+            className="group relative flex flex-col overflow-hidden rounded-2xl border border-border/50 transition-all duration-300 hover:border-border hover:shadow-[0_12px_48px_rgba(0,0,0,0.7)] hover:-translate-y-1"
+          >
+            {/* Cover image */}
+            <div className="relative h-40 overflow-hidden sm:h-48 lg:h-56">
+              <img
+                src={game.image}
+                alt={game.name}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.07]"
+              />
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+              {/* Players badge — top right */}
+              <div
+                className="absolute top-3 right-3 flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold backdrop-blur-sm border"
+                style={{
+                  borderColor: `${game.accent}35`,
+                  color: game.accent,
+                  backgroundColor: 'rgba(0,0,0,0.6)',
+                }}
+              >
+                <UsersIcon size={10} />
+                {game.maxPlayers}p
+              </div>
+
+              {/* "Get Server" button — appears on hover, slides up from bottom */}
+              <div className="absolute inset-x-0 bottom-0 translate-y-full transition-transform duration-300 group-hover:translate-y-0 px-4 pb-4">
+                <div
+                  className="flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold backdrop-blur-sm border"
+                  style={{
+                    backgroundColor: `${game.accent}22`,
+                    borderColor: `${game.accent}45`,
+                    color: game.accent,
+                  }}
+                >
+                  Get a Server <ArrowRightIcon size={13} />
+                </div>
+              </div>
+            </div>
+
+            {/* Card footer */}
+            <div className="flex flex-col gap-0.5 bg-surface px-4 py-3.5">
+              <span className="space-grotesk text-sm font-bold text-foreground leading-tight">{game.name}</span>
+              <span className="text-xs font-medium" style={{ color: `${game.accent}bb` }}>{game.genre}</span>
+            </div>
+          </motion.a>
+        ))}
+      </div>
+
+      {/* Trust line */}
+      <motion.p
+        {...fadeUp(0.65)}
+        className="mt-6 text-xs text-muted"
+      >
+        No tech skills needed &nbsp;·&nbsp; Live in under 60s &nbsp;·&nbsp; Cancel anytime
+      </motion.p>
+    </div>
   </section>
 );
 
