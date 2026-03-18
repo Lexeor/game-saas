@@ -1,12 +1,7 @@
-import { Routes, Route } from 'react-router-dom';
-import LandingPage from '@/pages/LandingPage.tsx';
+import AppRoutes from '@/routes.tsx';
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-    </Routes>
-  );
+  return <AppRoutes />;
 }
 
 export default App;

@@ -48,9 +48,6 @@ const Header: FC = () => {
           >
             Log in
           </Link>
-          <Button href="#games" className="hidden sm:inline-flex px-4 py-2 text-xs">
-            Get Started
-          </Button>
           <button
             className="md:hidden flex items-center justify-center h-9 w-9 rounded-lg bg-surface-2 text-foreground/60 hover:text-foreground transition-colors"
             onClick={() => setMobileOpen(v => !v)}

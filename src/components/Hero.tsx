@@ -1,41 +1,8 @@
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { UsersIcon, ArrowRightIcon } from 'lucide-react';
 import type { FC } from 'react';
-
-const GAMES = [
-  {
-    id: 'valheim',
-    name: 'Valheim',
-    genre: 'Viking Survival',
-    maxPlayers: 10,
-    image: '/game-saas/games/valheim.jpg',
-    accent: '#22c55e',
-  },
-  {
-    id: '7dtd',
-    name: '7 Days to Die',
-    genre: 'Zombie Survival',
-    maxPlayers: 8,
-    image: '/game-saas/games/7dtd.jpg',
-    accent: '#f97316',
-  },
-  {
-    id: 'project-zomboid',
-    name: 'Project Zomboid',
-    genre: 'Isometric Survival RPG',
-    maxPlayers: 32,
-    image: '/game-saas/games/project-zomboid.jpg',
-    accent: '#a3e635',
-  },
-  {
-    id: 'enshrouded',
-    name: 'Enshrouded',
-    genre: 'Action RPG Survival',
-    maxPlayers: 16,
-    image: '/game-saas/games/enshrouded.png',
-    accent: '#a78bfa',
-  },
-];
+import { GAMES } from '@/lib/games';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -95,56 +62,59 @@ const Hero: FC = () => (
       {/* Game cards — the main focus */}
       <div className="grid w-full grid-cols-2 gap-4 xl:grid-cols-4">
         {GAMES.map((game, i) => (
-          <motion.a
+          <motion.div
             key={game.id}
-            href="#"
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: 'easeOut', delay: 0.28 + i * 0.09 }}
-            className="group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.7)] hover:-translate-y-1"
           >
-            {/* Cover image */}
-            <div className="relative aspect-video overflow-hidden">
-              <img
-                src={game.image}
-                alt={game.name}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.07]"
-              />
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+            <Link
+              to={`/order/${game.id}`}
+              className="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.7)] hover:-translate-y-1"
+            >
+              {/* Cover image */}
+              <div className="relative aspect-video overflow-hidden">
+                <img
+                  src={game.image}
+                  alt={game.name}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.07]"
+                />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
-              {/* Players badge — top right */}
-              <div
-                className="absolute top-3 right-3 flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold backdrop-blur-sm"
-                style={{
-                  color: game.accent,
-                  backgroundColor: 'rgba(0,0,0,0.6)',
-                }}
-              >
-                <UsersIcon size={10} />
-                {game.maxPlayers}p
-              </div>
-
-              {/* "Get Server" button — appears on hover, slides up from bottom */}
-              <div className="absolute inset-x-0 bottom-0 translate-y-full transition-transform duration-300 group-hover:translate-y-0 px-4 pb-4">
+                {/* Players badge — top right */}
                 <div
-                  className="flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold backdrop-blur-sm"
+                  className="absolute top-3 right-3 flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold backdrop-blur-sm"
                   style={{
-                    backgroundColor: `${game.accent}28`,
                     color: game.accent,
+                    backgroundColor: 'rgba(0,0,0,0.6)',
                   }}
                 >
-                  Get a Server <ArrowRightIcon size={13} />
+                  <UsersIcon size={10} />
+                  {game.maxPlayers}p
+                </div>
+
+                {/* "Get Server" button — appears on hover, slides up from bottom */}
+                <div className="absolute inset-x-0 bottom-0 translate-y-full transition-transform duration-300 group-hover:translate-y-0 px-4 pb-4">
+                  <div
+                    className="flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold backdrop-blur-sm cursor-pointer!"
+                    style={{
+                      backgroundColor: `${game.accent}28`,
+                      color: game.accent,
+                    }}
+                  >
+                    Get a Server <ArrowRightIcon size={13} />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Card footer */}
-            <div className="flex flex-col gap-0.5 bg-surface px-4 py-3.5 min-w-0">
-              <span className="space-grotesk text-sm font-bold text-foreground leading-tight truncate">{game.name}</span>
-              <span className="text-xs font-medium truncate" style={{ color: `${game.accent}bb` }}>{game.genre}</span>
-            </div>
-          </motion.a>
+              {/* Card footer */}
+              <div className="flex flex-col gap-0.5 bg-surface px-4 py-3.5 min-w-0">
+                <span className="space-grotesk text-sm font-bold text-foreground leading-tight truncate">{game.name}</span>
+                <span className="text-xs font-medium truncate" style={{ color: `${game.accent}bb` }}>{game.genre}</span>
+              </div>
+            </Link>
+          </motion.div>
         ))}
       </div>
 
