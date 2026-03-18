@@ -104,7 +104,7 @@ const Hero: FC = () => (
             className="group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.7)] hover:-translate-y-1"
           >
             {/* Cover image */}
-            <div className="relative h-40 overflow-hidden sm:h-48 lg:h-56">
+            <div className="relative aspect-video overflow-hidden">
               <img
                 src={game.image}
                 alt={game.name}
