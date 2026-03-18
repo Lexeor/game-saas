@@ -69,13 +69,6 @@ const Hero: FC = () => (
 
       {/* Compact headline block */}
       <div className="mb-10 text-center">
-        <motion.div {...fadeUp(0.05)} className="mb-5">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary-500/25 bg-primary-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary-400 animate-pulse" />
-            Server setup? Consider it done.
-          </span>
-        </motion.div>
-
         <motion.h1
           {...fadeUp(0.12)}
           className="space-grotesk text-4xl font-bold leading-[1.1] tracking-tight md:text-5xl lg:text-6xl"
@@ -108,7 +101,7 @@ const Hero: FC = () => (
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease: 'easeOut', delay: 0.28 + i * 0.09 }}
-            className="group relative flex flex-col overflow-hidden rounded-2xl border border-border/50 transition-all duration-300 hover:border-border hover:shadow-[0_12px_48px_rgba(0,0,0,0.7)] hover:-translate-y-1"
+            className="group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-[0_12px_48px_rgba(0,0,0,0.7)] hover:-translate-y-1"
           >
             {/* Cover image */}
             <div className="relative h-40 overflow-hidden sm:h-48 lg:h-56">
@@ -122,9 +115,8 @@ const Hero: FC = () => (
 
               {/* Players badge — top right */}
               <div
-                className="absolute top-3 right-3 flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold backdrop-blur-sm border"
+                className="absolute top-3 right-3 flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold backdrop-blur-sm"
                 style={{
-                  borderColor: `${game.accent}35`,
                   color: game.accent,
                   backgroundColor: 'rgba(0,0,0,0.6)',
                 }}
@@ -136,10 +128,9 @@ const Hero: FC = () => (
               {/* "Get Server" button — appears on hover, slides up from bottom */}
               <div className="absolute inset-x-0 bottom-0 translate-y-full transition-transform duration-300 group-hover:translate-y-0 px-4 pb-4">
                 <div
-                  className="flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold backdrop-blur-sm border"
+                  className="flex items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold backdrop-blur-sm"
                   style={{
-                    backgroundColor: `${game.accent}22`,
-                    borderColor: `${game.accent}45`,
+                    backgroundColor: `${game.accent}28`,
                     color: game.accent,
                   }}
                 >
@@ -149,9 +140,9 @@ const Hero: FC = () => (
             </div>
 
             {/* Card footer */}
-            <div className="flex flex-col gap-0.5 bg-surface px-4 py-3.5">
-              <span className="space-grotesk text-sm font-bold text-foreground leading-tight">{game.name}</span>
-              <span className="text-xs font-medium" style={{ color: `${game.accent}bb` }}>{game.genre}</span>
+            <div className="flex flex-col gap-0.5 bg-surface px-4 py-3.5 min-w-0">
+              <span className="space-grotesk text-sm font-bold text-foreground leading-tight truncate">{game.name}</span>
+              <span className="text-xs font-medium truncate" style={{ color: `${game.accent}bb` }}>{game.genre}</span>
             </div>
           </motion.a>
         ))}

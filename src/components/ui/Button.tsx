@@ -15,7 +15,7 @@ const VARIANTS = {
     stitch: 'border-primary-400/40',
   },
   outline: {
-    base: 'bg-transparent text-foreground border border-border hover:border-primary-500/60 hover:text-primary-400 hover:bg-primary-500/5',
+    base: 'bg-white/5 text-foreground/70 hover:bg-white/10 hover:text-foreground',
     stitch: null,
   },
   ghost: {

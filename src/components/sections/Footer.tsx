@@ -8,7 +8,7 @@ const LINKS: Record<string, string[]> = {
 };
 
 const Footer: FC = () => (
-  <footer className="relative border-t border-border/50 px-4 pt-16 pb-8">
+  <footer className="relative px-4 pt-16 pb-8">
 
     <div
       className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 h-px w-2/3 max-w-lg"
@@ -62,7 +62,7 @@ const Footer: FC = () => (
       </div>
 
       {/* Bottom bar */}
-      <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border/40 pt-6 text-xs text-muted sm:flex-row">
+      <div className="mt-12 flex flex-col items-center justify-between gap-3 pt-6 text-xs text-muted sm:flex-row">
         <span>© {new Date().getFullYear()} GameNest. All rights reserved.</span>
         <span>Made with ♥ for gamers</span>
       </div>

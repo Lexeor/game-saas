@@ -26,7 +26,7 @@ const Features: FC = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-40px' }}
         transition={{ duration: 0.5 }}
-        className="flex flex-wrap items-center justify-center gap-x-0 gap-y-0 divide-y divide-border/40 sm:divide-y-0 sm:divide-x rounded-2xl border border-border/40 bg-surface/50 overflow-hidden"
+        className="flex flex-wrap items-center justify-center rounded-2xl bg-surface/40 overflow-hidden"
       >
         {FEATURES.map(({ icon: Icon, label, color }) => (
           <div

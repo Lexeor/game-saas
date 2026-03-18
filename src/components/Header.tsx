@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MenuIcon, XIcon, ServerIcon } from 'lucide-react';
 import Button from '@/components/ui/Button.tsx';
+import { Link } from 'react-router-dom';
 import type { FC } from 'react';
 
 const NAV_LINKS = [
@@ -14,7 +15,7 @@ const Header: FC = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
-      <div className="flex w-full max-w-[1280px] items-center justify-between rounded-2xl border border-border/60 bg-surface/80 px-5 py-3 shadow-[0_4px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+      <div className="flex w-full max-w-[1280px] items-center justify-between rounded-2xl bg-surface/80 px-5 py-3 shadow-[0_4px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
 
         {/* Logo */}
         <a href="#" className="flex items-center gap-2.5">
@@ -41,6 +42,12 @@ const Header: FC = () => {
 
         {/* CTA */}
         <div className="flex items-center gap-2">
+          <Link
+            to="/login"
+            className="hidden sm:inline-flex items-center px-4 py-2 text-sm font-medium text-foreground/50 hover:text-foreground transition-colors duration-150"
+          >
+            Log in
+          </Link>
           <Button href="#games" className="hidden sm:inline-flex px-4 py-2 text-xs">
             Get Started
           </Button>
@@ -62,7 +69,7 @@ const Header: FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18 }}
-            className="absolute left-4 right-4 top-20 rounded-2xl border border-border/60 bg-surface/95 backdrop-blur-xl px-4 py-4 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+            className="absolute left-4 right-4 top-20 rounded-2xl bg-surface/95 backdrop-blur-xl px-4 py-4 shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
           >
             <nav className="flex flex-col gap-1">
               {NAV_LINKS.map(link => (
@@ -75,7 +82,14 @@ const Header: FC = () => {
                   {link.label}
                 </a>
               ))}
-              <div className="mt-2 pt-2 border-t border-border">
+              <div className="mt-2 pt-2 flex flex-col gap-2">
+                <Link
+                  to="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-xl px-4 py-3 text-sm font-medium text-foreground/60 hover:bg-surface-2 hover:text-foreground transition-colors text-center"
+                >
+                  Log in
+                </Link>
                 <Button href="#games" className="w-full py-2.5 text-sm">
                   Get Started
                 </Button>
