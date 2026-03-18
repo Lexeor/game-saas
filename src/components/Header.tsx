@@ -1,33 +1,39 @@
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { MenuIcon, XIcon, ServerIcon } from 'lucide-react';
 import Button from '@/components/ui/Button.tsx';
-import { ArrowUpRightIcon, MenuIcon } from 'lucide-react';
 import type { FC } from 'react';
 
 const NAV_LINKS = [
-  { label: 'Обо мне', href: '#about' },
-  { label: 'Услуги', href: '#services' },
-  { label: 'Направления', href: '#directions' },
-  { label: 'Как я работаю', href: '#how-it-works' },
-  { label: 'Контакты', href: '#contact' },
+  { label: 'Games', href: '#games' },
+  { label: 'Features', href: '#features' },
+  { label: 'Pricing', href: '#pricing' },
 ];
 
 const Header: FC = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
-      <div className="flex w-full max-w-[1280px] items-center justify-between rounded-xl bg-background/85 px-4 py-3 shadow-sm backdrop-blur-md">
+      <div className="flex w-full max-w-[1280px] items-center justify-between rounded-2xl border border-border/60 bg-surface/80 px-5 py-3 shadow-[0_4px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl">
 
         {/* Logo */}
-        <a href="#" className="flex flex-col leading-none">
-          <span className="text-sm font-bold tracking-tight">Тамара Шаврадзе</span>
-          <span className="text-xs text-foreground/45 font-medium">карьерный консультант</span>
+        <a href="#" className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-500/15 text-primary-400">
+            <ServerIcon size={16} />
+          </div>
+          <span className="space-grotesk text-base font-bold tracking-tight text-foreground">
+            Game<span className="text-primary-400">Nest</span>
+          </span>
         </a>
 
-        {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-7">
           {NAV_LINKS.map(link => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-foreground/60 hover:text-foreground transition-colors duration-150"
+              className="text-sm font-medium text-foreground/50 hover:text-foreground transition-colors duration-150"
             >
               {link.label}
             </a>
@@ -36,16 +42,49 @@ const Header: FC = () => {
 
         {/* CTA */}
         <div className="flex items-center gap-2">
-          <Button href="#contact" className="hidden sm:inline-flex px-4 py-2">
-            Записаться
-            <ArrowUpRightIcon size={14} />
+          <Button href="#pricing" className="hidden sm:inline-flex px-4 py-2 text-xs">
+            Get Started
           </Button>
-          <button className="md:hidden p-2 rounded-lg bg-foreground/5" aria-label="Меню">
-            <MenuIcon size={18} />
+          <button
+            className="md:hidden flex items-center justify-center h-9 w-9 rounded-lg bg-surface-2 text-foreground/60 hover:text-foreground transition-colors"
+            onClick={() => setMobileOpen(v => !v)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <XIcon size={18} /> : <MenuIcon size={18} />}
           </button>
         </div>
-
       </div>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18 }}
+            className="absolute left-4 right-4 top-20 rounded-2xl border border-border/60 bg-surface/95 backdrop-blur-xl px-4 py-4 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+          >
+            <nav className="flex flex-col gap-1">
+              {NAV_LINKS.map(link => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-xl px-4 py-3 text-sm font-medium text-foreground/60 hover:bg-surface-2 hover:text-foreground transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <div className="mt-2 pt-2 border-t border-border">
+                <Button href="#pricing" className="w-full py-2.5 text-sm">
+                  Get Started
+                </Button>
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
