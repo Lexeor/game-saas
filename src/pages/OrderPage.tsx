@@ -156,7 +156,6 @@ export default function OrderPage() {
               </h2>
               <div className="grid gap-3 sm:grid-cols-3">
                 {PLANS.map((p) => {
-                  const tooFewPlayers = p.maxPlayers < 2;
                   const active = plan === p.id;
                   return (
                     <button
