@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   PlayIcon,
   SquareIcon,
@@ -7,9 +6,9 @@ import {
   UsersIcon,
   MapPinIcon,
   CopyIcon,
-  CheckIcon,
   LoaderIcon,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { GAMES } from '@/lib/games';
 import type { RentedServer, ServerStatus } from '@/lib/servers';
@@ -28,13 +27,11 @@ interface ServerCardProps {
 export default function ServerCard({ server }: ServerCardProps) {
   const game = GAMES.find((g) => g.id === server.gameId);
   const status = STATUS_CONFIG[server.status];
-  const [copied, setCopied] = useState(false);
   const address = `${server.ip}:${server.port}`;
 
   const copyAddress = () => {
     navigator.clipboard.writeText(address);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    toast.success('Address copied', { description: address });
   };
 
   const isTransitioning = server.status === 'starting' || server.status === 'stopping';
@@ -122,10 +119,7 @@ export default function ServerCard({ server }: ServerCardProps) {
           className="flex items-center justify-between rounded-xl border border-white/[0.07] bg-background/60 px-3 py-2 transition-colors hover:border-white/[0.14] hover:bg-background/80"
         >
           <span className="font-mono text-xs text-foreground/50">{address}</span>
-          {copied
-            ? <CheckIcon size={12} className="shrink-0 text-emerald-400" />
-            : <CopyIcon size={12} className="shrink-0 text-muted opacity-0 transition-opacity group-hover:opacity-100" />
-          }
+          <CopyIcon size={12} className="shrink-0 text-muted opacity-0 transition-opacity group-hover:opacity-100" />
         </button>
 
       </div>
