@@ -233,11 +233,11 @@ export default function OrderPage() {
               </div>
 
               <Link
-                to="/signup"
+                to="/login"
                 className="mt-5 flex w-full items-center justify-center rounded-xl py-3 text-sm font-bold transition-all hover:brightness-110 active:scale-[0.98]"
                 style={{ backgroundColor: game.accent, color: '#000' }}
               >
-                Create account & continue
+                Sign in & continue
               </Link>
 
               <p className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-foreground/35">
