@@ -7,17 +7,20 @@ import {
   MapPinIcon,
   CopyIcon,
   LoaderIcon,
+  CpuIcon,
+  ClockIcon,
+  MemoryStickIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { GAMES } from '@/lib/games';
 import type { RentedServer, ServerStatus } from '@/lib/servers';
 
-const STATUS_CONFIG: Record<ServerStatus, { label: string; dot: string; text: string }> = {
-  running:  { label: 'Running',  dot: 'bg-emerald-400',             text: 'text-emerald-400' },
-  stopped:  { label: 'Stopped',  dot: 'bg-foreground/20',           text: 'text-foreground/40' },
-  starting: { label: 'Starting', dot: 'bg-amber-400 animate-pulse', text: 'text-amber-400' },
-  stopping: { label: 'Stopping', dot: 'bg-amber-400 animate-pulse', text: 'text-amber-400' },
+const STATUS_CONFIG: Record<ServerStatus, { label: string; dot: string; text: string; bg: string }> = {
+  running:  { label: 'Running',  dot: 'bg-emerald-400',             text: 'text-emerald-400',   bg: 'bg-emerald-500/10' },
+  stopped:  { label: 'Stopped',  dot: 'bg-foreground/25',           text: 'text-foreground/40', bg: 'bg-white/[0.05]'   },
+  starting: { label: 'Starting', dot: 'bg-amber-400 animate-pulse', text: 'text-amber-400',     bg: 'bg-amber-500/10'   },
+  stopping: { label: 'Stopping', dot: 'bg-amber-400 animate-pulse', text: 'text-amber-400',     bg: 'bg-amber-500/10'   },
 };
 
 interface ServerCardProps {
@@ -27,6 +30,7 @@ interface ServerCardProps {
 export default function ServerCard({ server }: ServerCardProps) {
   const game = GAMES.find((g) => g.id === server.gameId);
   const status = STATUS_CONFIG[server.status];
+  const isTransitioning = server.status === 'starting' || server.status === 'stopping';
   const address = `${server.ip}:${server.port}`;
 
   const copyAddress = () => {
@@ -34,127 +38,140 @@ export default function ServerCard({ server }: ServerCardProps) {
     toast.success('Address copied', { description: address });
   };
 
-  const isTransitioning = server.status === 'starting' || server.status === 'stopping';
-
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-surface transition-colors hover:border-white/[0.12]">
-
-      {/* Game banner */}
-      <div className="relative h-24 overflow-hidden">
+    <div
+      className="group flex overflow-hidden rounded-2xl bg-surface shadow-[0_8px_40px_rgba(0,0,0,0.45)] transition-shadow hover:shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
+    >
+      {/* Game banner — vertical strip */}
+      <div className="relative w-36 shrink-0 overflow-hidden">
         {game?.image && (
           <img
             src={game.image}
             alt={game.name}
             className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-            style={{ filter: 'brightness(0.3)' }}
+            style={{ filter: 'brightness(0.28)' }}
           />
         )}
         <div
           className="absolute inset-0"
-          style={{ background: `linear-gradient(to bottom, ${game?.accent ?? '#3b82f6'}18 0%, transparent 60%, #0c1220 100%)` }}
+          style={{
+            background: `linear-gradient(to right, transparent 55%, #0c1220 100%), linear-gradient(to bottom, ${game?.accent ?? '#3b82f6'}28 0%, transparent 55%)`,
+          }}
         />
-
-        {/* Game label */}
-        <div className="absolute bottom-3 left-4">
+        <div className="absolute inset-0 flex items-end p-4">
           <p
-            className="text-[10px] font-semibold uppercase tracking-widest"
-            style={{ color: game?.accent }}
+            className="text-[10px] font-bold uppercase tracking-widest leading-none"
+            style={{ color: game?.accent, writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
           >
             {game?.name}
           </p>
         </div>
+      </div>
 
-        {/* Status badge */}
-        <div className="absolute right-3 top-3">
+      {/* Main content */}
+      <div className="flex flex-1 flex-col gap-4 p-5 min-w-0">
+
+        {/* Header */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h3 className="space-grotesk text-lg font-bold text-foreground leading-tight truncate">
+              {server.name}
+            </h3>
+            <p className="mt-0.5 text-xs text-muted">{server.plan} plan</p>
+          </div>
+
           <div className={cn(
-            'flex items-center gap-1.5 rounded-full border px-2.5 py-1',
-            'bg-background/70 backdrop-blur-sm',
-            server.status === 'running'
-              ? 'border-emerald-500/25'
-              : server.status === 'stopped'
-              ? 'border-white/[0.08]'
-              : 'border-amber-500/25',
+            'flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1',
+            status.bg,
           )}>
-            {isTransitioning ? (
-              <LoaderIcon size={9} className={cn('animate-spin', status.text)} />
-            ) : (
-              <span className={cn('h-1.5 w-1.5 rounded-full', status.dot)} />
-            )}
+            {isTransitioning
+              ? <LoaderIcon size={9} className={cn('animate-spin', status.text)} />
+              : <span className={cn('h-1.5 w-1.5 rounded-full', status.dot)} />
+            }
             <span className={cn('text-[10px] font-semibold', status.text)}>{status.label}</span>
           </div>
         </div>
-      </div>
 
-      {/* Body */}
-      <div className="flex flex-1 flex-col gap-4 p-4">
-
-        {/* Server name */}
-        <div>
-          <h3 className="space-grotesk text-base font-bold text-foreground leading-tight">
-            {server.name}
-          </h3>
-          <p className="mt-0.5 text-xs text-muted">{server.plan} · {server.ram} RAM · {server.cpu}</p>
-        </div>
-
-        {/* Stats row */}
-        <div className="flex items-center gap-4 text-xs text-muted">
-          <span className="flex items-center gap-1.5">
-            <UsersIcon size={11} />
-            <span>
-              {server.status === 'running'
-                ? <><span className="text-foreground/70">{server.players.current}</span>/{server.players.max}</>
-                : <span>—/{server.players.max}</span>
-              }
-            </span>
-          </span>
-          <span className="flex items-center gap-1.5">
-            <MapPinIcon size={11} />
-            {server.region}
-          </span>
+        {/* Stats grid */}
+        <div className="grid grid-cols-2 gap-2">
+          {[
+            {
+              icon: UsersIcon,
+              label: 'Players',
+              value: server.status === 'running'
+                ? `${server.players.current} / ${server.players.max}`
+                : `— / ${server.players.max}`,
+            },
+            {
+              icon: MapPinIcon,
+              label: 'Region',
+              value: server.region,
+            },
+            {
+              icon: MemoryStickIcon,
+              label: 'RAM',
+              value: server.ram,
+            },
+            {
+              icon: server.status === 'running' ? ClockIcon : CpuIcon,
+              label: server.status === 'running' ? 'Uptime' : 'CPU',
+              value: server.status === 'running' ? (server.uptime ?? '—') : server.cpu,
+            },
+          ].map(({ icon: Icon, label, value }) => (
+            <div
+              key={label}
+              className="flex items-center gap-2 rounded-xl bg-background/50 px-3 py-2.5"
+            >
+              <Icon size={13} className="shrink-0 text-muted" />
+              <div className="min-w-0">
+                <p className="text-[10px] text-muted">{label}</p>
+                <p className="truncate text-xs font-medium text-foreground/70">{value}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* IP address */}
         <button
           onClick={copyAddress}
-          className="flex items-center justify-between rounded-xl border border-white/[0.07] bg-background/60 px-3 py-2 transition-colors hover:border-white/[0.14] hover:bg-background/80"
+          className="flex items-center justify-between rounded-xl bg-background/50 px-3.5 py-2.5 transition-colors hover:bg-background/80"
         >
-          <span className="font-mono text-xs text-foreground/50">{address}</span>
+          <div className="flex items-center gap-2.5">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-muted">IP</span>
+            <span className="font-mono text-xs text-foreground/55">{address}</span>
+          </div>
           <CopyIcon size={12} className="shrink-0 text-muted opacity-0 transition-opacity group-hover:opacity-100" />
         </button>
 
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <button
+            disabled={isTransitioning}
+            className={cn(
+              'flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all',
+              'disabled:cursor-not-allowed disabled:opacity-40',
+              server.status === 'running'
+                ? 'bg-red-500/12 text-red-400 hover:bg-red-500/20'
+                : 'bg-emerald-500/12 text-emerald-400 hover:bg-emerald-500/20',
+            )}
+          >
+            {server.status === 'running'
+              ? <><SquareIcon size={14} />Stop server</>
+              : <><PlayIcon size={14} />Start server</>
+            }
+          </button>
+
+          <button className="flex items-center gap-2 rounded-xl bg-background/50 px-4 py-2.5 text-sm font-medium text-foreground/50 transition-colors hover:bg-background/80 hover:text-foreground/75">
+            <TerminalIcon size={14} />
+            Console
+          </button>
+
+          <button className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-background/50 text-muted transition-colors hover:bg-background/80 hover:text-foreground/60">
+            <SettingsIcon size={14} />
+          </button>
+        </div>
+
       </div>
-
-      {/* Footer actions */}
-      <div className="flex items-center gap-2 border-t border-white/[0.06] px-4 py-3">
-        {/* Start / Stop */}
-        <button
-          disabled={isTransitioning}
-          className={cn(
-            'flex flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold transition-all',
-            'disabled:cursor-not-allowed disabled:opacity-40',
-            server.status === 'running'
-              ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20'
-              : 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20',
-          )}
-        >
-          {server.status === 'running'
-            ? <><SquareIcon size={12} /> Stop</>
-            : <><PlayIcon size={12} /> Start</>
-          }
-        </button>
-
-        {/* Console */}
-        <button className="flex items-center gap-1.5 rounded-xl border border-white/[0.07] px-3 py-2 text-xs font-medium text-foreground/50 transition-colors hover:border-white/[0.14] hover:text-foreground/80">
-          <TerminalIcon size={12} />
-          Console
-        </button>
-
-        {/* Settings */}
-        <button className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/[0.07] text-muted transition-colors hover:border-white/[0.14] hover:text-foreground/60">
-          <SettingsIcon size={13} />
-        </button>
-      </div>
-
     </div>
   );
 }

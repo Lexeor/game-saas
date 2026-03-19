@@ -12,6 +12,7 @@ export interface RentedServer {
   players: { current: number; max: number };
   ip: string;
   port: number;
+  uptime: string | null;
   createdAt: string;
 }
 
@@ -28,6 +29,7 @@ export const MOCK_SERVERS: RentedServer[] = [
     players: { current: 3, max: 16 },
     ip: '94.130.112.77',
     port: 2456,
+    uptime: '6d 14h 32m',
     createdAt: '2026-03-01T10:00:00Z',
   },
   {
@@ -42,6 +44,7 @@ export const MOCK_SERVERS: RentedServer[] = [
     players: { current: 0, max: 4 },
     ip: '45.56.88.213',
     port: 26900,
+    uptime: null,
     createdAt: '2026-03-10T14:30:00Z',
   },
   {
@@ -56,6 +59,7 @@ export const MOCK_SERVERS: RentedServer[] = [
     players: { current: 0, max: 16 },
     ip: '178.63.44.91',
     port: 15636,
+    uptime: null,
     createdAt: '2026-03-18T09:15:00Z',
   },
 ];

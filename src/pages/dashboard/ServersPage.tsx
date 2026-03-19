@@ -22,7 +22,7 @@ export default function ServersPage() {
   });
 
   return (
-    <div className="flex flex-col gap-8 px-6 py-8 md:px-8">
+    <div className="flex flex-col gap-8 px-6 py-8 md:px-8 max-w-2xl">
 
       {/* Page header */}
       <div className="flex items-start justify-between gap-4">
@@ -68,7 +68,7 @@ export default function ServersPage() {
 
       {/* Server grid */}
       {servers.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="flex flex-col gap-4">
           {servers.map((server) => (
             <ServerCard key={server.id} server={server} />
           ))}
