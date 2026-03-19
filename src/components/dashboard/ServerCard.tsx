@@ -23,6 +23,31 @@ const STATUS_CONFIG: Record<ServerStatus, { label: string; dot: string; text: st
   stopping: { label: 'Stopping', dot: 'bg-amber-400 animate-pulse', text: 'text-amber-400',     bg: 'bg-amber-500/10'   },
 };
 
+const STATS = (server: RentedServer) => [
+  {
+    icon: UsersIcon,
+    label: 'Players',
+    value: server.status === 'running'
+      ? `${server.players.current} / ${server.players.max}`
+      : `— / ${server.players.max}`,
+  },
+  {
+    icon: MapPinIcon,
+    label: 'Region',
+    value: server.region,
+  },
+  {
+    icon: MemoryStickIcon,
+    label: 'RAM',
+    value: server.ram,
+  },
+  {
+    icon: server.status === 'running' ? ClockIcon : CpuIcon,
+    label: server.status === 'running' ? 'Uptime' : 'CPU',
+    value: server.status === 'running' ? (server.uptime ?? '—') : server.cpu,
+  },
+];
+
 interface ServerCardProps {
   server: RentedServer;
 }
@@ -38,12 +63,21 @@ export default function ServerCard({ server }: ServerCardProps) {
     toast.success('Address copied', { description: address });
   };
 
+  const statusBadge = (
+    <div className={cn('flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1', status.bg)}>
+      {isTransitioning
+        ? <LoaderIcon size={9} className={cn('animate-spin', status.text)} />
+        : <span className={cn('h-1.5 w-1.5 rounded-full', status.dot)} />
+      }
+      <span className={cn('text-[10px] font-semibold', status.text)}>{status.label}</span>
+    </div>
+  );
+
   return (
-    <div
-      className="group flex overflow-hidden rounded-2xl bg-surface shadow-[0_8px_40px_rgba(0,0,0,0.45)] transition-shadow hover:shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
-    >
-      {/* Game banner — vertical strip */}
-      <div className="relative w-36 shrink-0 overflow-hidden">
+    <div className="group flex flex-col overflow-hidden rounded-2xl bg-surface shadow-[0_8px_40px_rgba(0,0,0,0.45)] transition-shadow hover:shadow-[0_12px_48px_rgba(0,0,0,0.55)] sm:flex-row">
+
+      {/* ── Mobile: horizontal banner ── Desktop: vertical strip ───── */}
+      <div className="relative h-32 w-full shrink-0 overflow-hidden sm:h-auto sm:w-36">
         {game?.image && (
           <img
             src={game.image}
@@ -52,13 +86,35 @@ export default function ServerCard({ server }: ServerCardProps) {
             style={{ filter: 'brightness(0.28)' }}
           />
         )}
+
+        {/* Mobile gradient: dark at bottom */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 sm:hidden"
+          style={{
+            background: `linear-gradient(to bottom, ${game?.accent ?? '#3b82f6'}20 0%, transparent 50%, #0c1220 100%)`,
+          }}
+        />
+        {/* Desktop gradient: dark at right */}
+        <div
+          className="absolute inset-0 hidden sm:block"
           style={{
             background: `linear-gradient(to right, transparent 55%, #0c1220 100%), linear-gradient(to bottom, ${game?.accent ?? '#3b82f6'}28 0%, transparent 55%)`,
           }}
         />
-        <div className="absolute inset-0 flex items-end p-4">
+
+        {/* Mobile: game name + status in banner */}
+        <div className="absolute inset-0 flex items-end justify-between p-4 sm:hidden">
+          <p
+            className="text-xs font-bold uppercase tracking-widest"
+            style={{ color: game?.accent }}
+          >
+            {game?.name}
+          </p>
+          {statusBadge}
+        </div>
+
+        {/* Desktop: rotated game name */}
+        <div className="absolute inset-0 hidden items-end p-4 sm:flex">
           <p
             className="text-[10px] font-bold uppercase tracking-widest leading-none"
             style={{ color: game?.accent, writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
@@ -71,7 +127,7 @@ export default function ServerCard({ server }: ServerCardProps) {
       {/* Main content */}
       <div className="flex flex-1 flex-col gap-4 p-5 min-w-0">
 
-        {/* Header */}
+        {/* Header: name + status (status hidden on mobile — shown in banner) */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3 className="space-grotesk text-lg font-bold text-foreground leading-tight truncate">
@@ -79,51 +135,18 @@ export default function ServerCard({ server }: ServerCardProps) {
             </h3>
             <p className="mt-0.5 text-xs text-muted">{server.plan} plan</p>
           </div>
-
-          <div className={cn(
-            'flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1',
-            status.bg,
-          )}>
-            {isTransitioning
-              ? <LoaderIcon size={9} className={cn('animate-spin', status.text)} />
-              : <span className={cn('h-1.5 w-1.5 rounded-full', status.dot)} />
-            }
-            <span className={cn('text-[10px] font-semibold', status.text)}>{status.label}</span>
-          </div>
+          <div className="hidden sm:block">{statusBadge}</div>
         </div>
 
-        {/* Stats grid */}
-        <div className="grid grid-cols-2 gap-2">
-          {[
-            {
-              icon: UsersIcon,
-              label: 'Players',
-              value: server.status === 'running'
-                ? `${server.players.current} / ${server.players.max}`
-                : `— / ${server.players.max}`,
-            },
-            {
-              icon: MapPinIcon,
-              label: 'Region',
-              value: server.region,
-            },
-            {
-              icon: MemoryStickIcon,
-              label: 'RAM',
-              value: server.ram,
-            },
-            {
-              icon: server.status === 'running' ? ClockIcon : CpuIcon,
-              label: server.status === 'running' ? 'Uptime' : 'CPU',
-              value: server.status === 'running' ? (server.uptime ?? '—') : server.cpu,
-            },
-          ].map(({ icon: Icon, label, value }) => (
+        {/* Stats: 1 col on mobile, 2 cols on desktop */}
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {STATS(server).map(({ icon: Icon, label, value }) => (
             <div
               key={label}
               className="flex items-center gap-2 rounded-xl bg-background/50 px-3 py-2.5"
             >
               <Icon size={13} className="shrink-0 text-muted" />
-              <div className="min-w-0">
+              <div className="min-w-0 flex flex-1 items-center justify-between gap-2 sm:flex-col sm:items-start sm:justify-start">
                 <p className="text-[10px] text-muted">{label}</p>
                 <p className="truncate text-xs font-medium text-foreground/70">{value}</p>
               </div>
@@ -131,7 +154,7 @@ export default function ServerCard({ server }: ServerCardProps) {
           ))}
         </div>
 
-        {/* IP address */}
+        {/* IP */}
         <button
           onClick={copyAddress}
           className="flex items-center justify-between rounded-xl bg-background/50 px-3.5 py-2.5 transition-colors hover:bg-background/80"
